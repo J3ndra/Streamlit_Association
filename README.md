@@ -11,3 +11,5 @@
    > If you not see ipython, run on terminal `pip install ipython`
 
    > If you not see error `ModuleNotFoundError: No module named 'ipykernel'`. Then run `pip install ipykernel`
+
+5. Run `streamlit run main.py` to start the Streamlit!
