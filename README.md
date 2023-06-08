@@ -6,7 +6,7 @@
 2. Activate the environment
 3. Install necessary lib
    > streamlit, matplotlib, scikit-learn, mlxtend
-4. Run `ipython kernel install --user --name=<name>
+4. Run `ipython kernel install --user --name=<name>`
 
    > If you not see ipython, run on terminal `pip install ipython`
 
