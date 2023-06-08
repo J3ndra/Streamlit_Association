@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import itertools
+import plotly.express as px
 from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import apriori, association_rules
 
@@ -128,3 +129,12 @@ if uploaded_file is not None:
                         (df_ar.confidence > confidence_value)]
     sorted_df = filtered_df.sort_values("confidence", ascending=False)
     st.write(sorted_df)
+
+    # Create plot
+    sorted_df['antecedents'] = sorted_df['antecedents'].apply(
+        lambda x: ', '.join(list(x)))
+    sorted_df['consequents'] = sorted_df['consequents'].apply(
+        lambda x: ', '.join(list(x)))
+    fig = px.bar(sorted_df, x='antecedents',
+                 y='confidence', color='consequents')
+    st.plotly_chart(fig)
