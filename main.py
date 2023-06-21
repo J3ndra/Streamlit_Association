@@ -3,7 +3,7 @@ import pandas as pd
 import itertools
 import plotly.express as px
 from mlxtend.preprocessing import TransactionEncoder
-from mlxtend.frequent_patterns import apriori, association_rules
+from mlxtend.frequent_patterns import apriori, association_rules, fpgrowth
 
 st.title('Aplikasi Web Data Mining Asosiasi!')
 
@@ -11,6 +11,11 @@ st.write("""
          # Dataset
          ##### Select dataset!
          """)
+
+nama_algoritma = st.sidebar.selectbox(
+    'Pilih Algoritma',
+    ('Apriori', 'FP Growth'),
+)
 
 uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 if uploaded_file is not None:
@@ -93,19 +98,24 @@ if uploaded_file is not None:
                                iterationIndex=iteration3.index)
     st.write(iteration4)
 
-    st.write("""
+    st.write(f"""
              # Algorithm
-             ##### Apriori
+             ##### {nama_algoritma}
              """)
 
-    freq_items = apriori(df_encoded, min_support=0.1,
-                         use_colnames=True, verbose=1)
+    if nama_algoritma == 'Apriori':
+        freq_items = apriori(df_encoded, min_support=0.1,
+                             use_colnames=True, verbose=1)
+    else:
+        freq_items = fpgrowth(df_encoded, min_support=0.1,
+                              use_colnames=True, verbose=1)
+
     st.write(freq_items.sort_values("support", ascending=False))
 
-    st.write("##### Apriori Top 5")
+    st.write(f"##### {nama_algoritma} Top 5")
     st.dataframe(freq_items.head())
 
-    st.write("##### Apriori Bottom 5")
+    st.write(f"##### {nama_algoritma} Bottom 5")
     st.dataframe(freq_items.tail())
 
     st.write("# Association Rules & Info")
